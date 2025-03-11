@@ -1,6 +1,7 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Github, ExternalLink } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +24,12 @@ export default function ProjectCard({
   className,
   githubUrl,
 }: ProjectCardProps) {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <div
       className={cn(
@@ -41,7 +48,35 @@ export default function ProjectCard({
       
       <div className="p-6">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{description}</p>
+        <div className="relative">
+          <p className={cn(
+            "text-muted-foreground text-sm mb-4",
+            expanded ? "" : "line-clamp-3"
+          )}>
+            {description}
+          </p>
+          
+          {description.length > 150 && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex items-center gap-1 mt-1 mb-3" 
+              onClick={toggleDescription}
+            >
+              {expanded ? (
+                <>
+                  <Minus size={16} />
+                  Voir moins
+                </>
+              ) : (
+                <>
+                  <Plus size={16} />
+                  Voir plus
+                </>
+              )}
+            </Button>
+          )}
+        </div>
         
         <div className="flex flex-wrap gap-2 mb-4">
           {technologies.map((tech, index) => (
