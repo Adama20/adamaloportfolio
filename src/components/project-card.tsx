@@ -25,9 +25,14 @@ export default function ProjectCard({
   githubUrl,
 }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const toggleDescription = () => {
     setExpanded(!expanded);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   return (
@@ -39,8 +44,9 @@ export default function ProjectCard({
     >
       <div className="h-48 overflow-hidden relative">
         <img
-          src={image}
+          src={imageError ? "/placeholder.svg" : image}
           alt={title}
+          onError={handleImageError}
           className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
