@@ -13,19 +13,36 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { toast } from "sonner";
 
 export default function Experience() {
   const [selectedExperience, setSelectedExperience] = useState<number>(1);
+  const [isDownloading, setIsDownloading] = useState(false);
   
   // Fonction pour télécharger le CV
   const handleDownloadCV = () => {
-    // Créer un lien vers le fichier CV
-    const link = document.createElement('a');
-    link.href = '/cv-adama-lo.pdf';
-    link.download = 'CV_Adama_Lo.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      setIsDownloading(true);
+      
+      // Créer un lien vers le fichier CV
+      const link = document.createElement('a');
+      link.href = '/cv-adama-lo.pdf';
+      link.download = 'CV_Adama_Lo.pdf';
+      document.body.appendChild(link);
+      
+      link.click();
+      
+      // Nettoyer le DOM
+      setTimeout(() => {
+        document.body.removeChild(link);
+        setIsDownloading(false);
+        toast.success("Téléchargement du CV réussi !");
+      }, 100);
+    } catch (error) {
+      setIsDownloading(false);
+      toast.error("Échec du téléchargement, veuillez réessayer.");
+      console.error("Erreur lors du téléchargement:", error);
+    }
   };
 
   return (
@@ -58,11 +75,18 @@ export default function Experience() {
               </div>
               <div className="mt-6">
                 <Button 
-                  className="w-full flex items-center gap-2 justify-center"
+                  className={cn(
+                    "w-full flex items-center gap-2 justify-center relative overflow-hidden group",
+                    isDownloading ? "bg-primary/80" : ""
+                  )}
                   onClick={handleDownloadCV}
+                  disabled={isDownloading}
                 >
-                  <Download size={18} />
-                  Télécharger mon CV
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Download size={18} className={isDownloading ? "animate-bounce" : ""} />
+                    {isDownloading ? "Téléchargement..." : "Télécharger mon CV"}
+                  </span>
+                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:h-full z-0"></span>
                 </Button>
               </div>
             </div>

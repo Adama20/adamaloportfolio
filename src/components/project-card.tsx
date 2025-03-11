@@ -27,7 +27,9 @@ export default function ProjectCard({
   const [expanded, setExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const toggleDescription = () => {
+  const toggleDescription = (e: React.MouseEvent) => {
+    e.preventDefault(); // Empêcher la propagation de l'événement
+    e.stopPropagation(); // Empêcher le comportement par défaut
     setExpanded(!expanded);
   };
 
@@ -68,6 +70,7 @@ export default function ProjectCard({
               size="sm" 
               className="flex items-center gap-1 mt-1 mb-3" 
               onClick={toggleDescription}
+              type="button"
             >
               {expanded ? (
                 <>
