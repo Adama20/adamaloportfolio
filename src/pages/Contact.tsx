@@ -27,12 +27,23 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
+    // Construction du lien mailto pour envoyer l'email directement
+    const subject = encodeURIComponent(formData.subject);
+    const body = encodeURIComponent(
+      `De: ${formData.name} (${formData.email})\n\n${formData.message}`
+    );
+    
+    // Ouvrir l'application de messagerie par défaut
+    window.location.href = `mailto:adamalo205@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Afficher un toast de confirmation
+    toast({
+      title: "Message prêt à être envoyé",
+      description: "Votre application de messagerie s'est ouverte. Complétez l'envoi pour que je reçoive votre message.",
+    });
+    
+    // Réinitialiser le formulaire après un court délai
     setTimeout(() => {
-      toast({
-        title: "Message envoyé !",
-        description: "Merci pour votre message. Je vous répondrai dès que possible.",
-      });
       setFormData({
         name: "",
         email: "",
@@ -40,7 +51,7 @@ export default function Contact() {
         message: "",
       });
       setIsSubmitting(false);
-    }, 1500);
+    }, 1000);
   };
 
   return (

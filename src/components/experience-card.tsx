@@ -1,5 +1,7 @@
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 interface RealizationItem {
   title: string;
@@ -15,6 +17,7 @@ interface ExperienceCardProps {
   tools?: string;
   className?: string;
   isActive?: boolean;
+  websiteUrl?: string;
 }
 
 export default function ExperienceCard({
@@ -26,6 +29,7 @@ export default function ExperienceCard({
   tools,
   className,
   isActive = false,
+  websiteUrl,
 }: ExperienceCardProps) {
   return (
     <div
@@ -44,6 +48,17 @@ export default function ExperienceCard({
           <span className="hidden sm:block mx-2">•</span>
           <span>{period}</span>
         </div>
+        
+        {websiteUrl && (
+          <div className="mt-3">
+            <Button variant="outline" size="sm" className="flex items-center gap-2" asChild>
+              <a href={websiteUrl} target="_blank" rel="noopener noreferrer">
+                Voir le site web
+                <ExternalLink size={16} />
+              </a>
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="space-y-4">

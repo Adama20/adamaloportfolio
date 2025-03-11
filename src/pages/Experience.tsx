@@ -6,10 +6,27 @@ import ExperienceCard from "@/components/experience-card";
 import { experiences } from "@/data/experience";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Download, Briefcase } from "lucide-react";
+import { Download, Briefcase, ExternalLink } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function Experience() {
   const [selectedExperience, setSelectedExperience] = useState<number>(1);
+  
+  // Fonction pour télécharger le CV
+  const handleDownloadCV = () => {
+    // Créer un lien vers le fichier CV
+    const link = document.createElement('a');
+    link.href = '/cv-adama-lo.pdf';
+    link.download = 'CV_Adama_Lo.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Layout>
@@ -40,7 +57,10 @@ export default function Experience() {
                 ))}
               </div>
               <div className="mt-6">
-                <Button className="w-full flex items-center gap-2 justify-center">
+                <Button 
+                  className="w-full flex items-center gap-2 justify-center"
+                  onClick={handleDownloadCV}
+                >
                   <Download size={18} />
                   Télécharger mon CV
                 </Button>
@@ -65,29 +85,55 @@ export default function Experience() {
                   realizations={exp.realizations}
                   tools={exp.tools}
                   isActive={true}
+                  websiteUrl={exp.websiteUrl}
                 />
 
                 <div className="mt-8 glass-panel p-6">
-                  <h3 className="text-xl font-semibold mb-4">Détails supplémentaires</h3>
-                  <div className="space-y-4">
-                    <p>
-                      En tant que {exp.title} chez {exp.company}, j'ai pu développer mes compétences techniques 
-                      et professionnelles dans un environnement stimulant. Cette expérience m'a permis de 
-                      renforcer ma maîtrise des outils suivants : {exp.tools}.
-                    </p>
-                    <p>
-                      J'ai travaillé sur des projets variés qui m'ont permis d'acquérir une vision globale
-                      des problématiques métier et des solutions technologiques adaptées.
-                    </p>
-                    <h4 className="font-medium mt-4">Compétences développées :</h4>
-                    <ul className="list-disc pl-5 space-y-1">
-                      <li>Analyse et compréhension des besoins métier</li>
-                      <li>Conception et mise en œuvre de solutions BI adaptées</li>
-                      <li>Optimisation des performances et automatisation des processus</li>
-                      <li>Communication et collaboration avec les équipes métier</li>
-                      <li>Gestion de projet et respect des délais</li>
-                    </ul>
-                  </div>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="details">
+                      <AccordionTrigger className="text-xl font-semibold">
+                        Détails supplémentaires
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-4 mt-4">
+                          <p>{exp.details}</p>
+                          
+                          <h4 className="font-medium mt-4">Compétences développées :</h4>
+                          <ul className="list-disc pl-5 space-y-1">
+                            {exp.id === 1 && (
+                              <>
+                                <li>Analyse et modélisation de données complexes</li>
+                                <li>Conception et développement de tableaux de bord BI</li>
+                                <li>Automatisation des processus de reporting</li>
+                                <li>Communication avec les équipes métiers</li>
+                                <li>Gestion de projet en environnement agile</li>
+                              </>
+                            )}
+                            
+                            {exp.id === 2 && (
+                              <>
+                                <li>Développement web frontend et backend</li>
+                                <li>Intégration de chatbots et outils conversationnels</li>
+                                <li>Gestion de bases de données web</li>
+                                <li>Optimisation des performances web</li>
+                                <li>Travail collaboratif en équipe de développement</li>
+                              </>
+                            )}
+                            
+                            {exp.id === 3 && (
+                              <>
+                                <li>Administration système et réseau</li>
+                                <li>Gestion de bases de données SQL Server</li>
+                                <li>Support utilisateur et résolution de problèmes</li>
+                                <li>Documentation technique et fonctionnelle</li>
+                                <li>Formation des utilisateurs sur les outils informatiques</li>
+                              </>
+                            )}
+                          </ul>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </div>
               </div>
             ))}

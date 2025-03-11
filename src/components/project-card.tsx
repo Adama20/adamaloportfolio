@@ -1,7 +1,8 @@
 
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Github, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface ProjectCardProps {
   title: string;
@@ -10,6 +11,7 @@ interface ProjectCardProps {
   technologies: string[];
   link?: string;
   className?: string;
+  githubUrl?: string;
 }
 
 export default function ProjectCard({
@@ -19,6 +21,7 @@ export default function ProjectCard({
   technologies,
   link,
   className,
+  githubUrl,
 }: ProjectCardProps) {
   return (
     <div
@@ -51,15 +54,26 @@ export default function ProjectCard({
           ))}
         </div>
         
-        {link && (
-          <Link
-            to={link}
-            className="inline-flex items-center text-primary font-medium text-sm group-hover:underline"
-          >
-            Voir le projet
-            <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
-          </Link>
-        )}
+        <div className="flex gap-2 items-center">
+          {link && (
+            <Link
+              to={link}
+              className="inline-flex items-center text-primary font-medium text-sm group-hover:underline"
+            >
+              Voir le projet
+              <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
+            </Link>
+          )}
+          
+          {githubUrl && (
+            <Button variant="outline" size="sm" className="ml-auto flex items-center gap-1" asChild>
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                <Github size={16} />
+                GitHub
+              </a>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

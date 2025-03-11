@@ -6,9 +6,17 @@ import ProjectCard from "@/components/project-card";
 import { projects } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Projects() {
   const [filter, setFilter] = useState<string>("all");
+  
+  // Catégories de projets
+  const categories = {
+    principal: "Projets principaux",
+    sncf: "Projets SNCF Voyageurs",
+    academique: "Projets académiques"
+  };
   
   // Extract unique technologies from all projects
   const allTechnologies = [...new Set(projects.flatMap(project => project.technologies))];
@@ -20,53 +28,86 @@ export default function Projects() {
   return (
     <Layout>
       <Section title="Mes projets" subtitle="Découvrez les projets sur lesquels j'ai travaillé">
-        <div className="mb-10">
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Button 
-              variant={filter === "all" ? "default" : "outline"}
-              className="transition-all duration-200"
-              onClick={() => setFilter("all")}
-            >
-              Tous les projets
-            </Button>
+        <Tabs defaultValue="all" className="mb-10">
+          <TabsList className="w-full max-w-2xl mx-auto flex justify-center mb-8 flex-wrap">
+            <TabsTrigger value="all">Tous les projets</TabsTrigger>
+            <TabsTrigger value="principal">Projets principaux</TabsTrigger>
+            <TabsTrigger value="sncf">Projets SNCF</TabsTrigger>
+            <TabsTrigger value="academique">Projets académiques</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="all" className="space-y-8">
+            <div className="mb-10">
+              <div className="flex flex-wrap gap-2 justify-center">
+                <Button 
+                  variant={filter === "all" ? "default" : "outline"}
+                  className="transition-all duration-200"
+                  onClick={() => setFilter("all")}
+                >
+                  Tous
+                </Button>
+                
+                {allTechnologies.map((tech, index) => (
+                  <Button
+                    key={index}
+                    variant={filter === tech ? "default" : "outline"}
+                    className="transition-all duration-200"
+                    onClick={() => setFilter(tech)}
+                  >
+                    {tech}
+                  </Button>
+                ))}
+              </div>
+            </div>
             
-            {allTechnologies.map((tech, index) => (
-              <Button
-                key={index}
-                variant={filter === tech ? "default" : "outline"}
-                className="transition-all duration-200"
-                onClick={() => setFilter(tech)}
-              >
-                {tech}
-              </Button>
-            ))}
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              technologies={project.technologies}
-              link={project.link}
-              className={cn(
-                "transition-all duration-300",
-                filter === "all" || project.technologies.includes(filter)
-                  ? "opacity-100 scale-100"
-                  : "opacity-50 scale-95"
-              )}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  title={project.title}
+                  description={project.description}
+                  image={project.image}
+                  technologies={project.technologies}
+                  link={project.link}
+                  githubUrl={project.githubUrl}
+                  className={cn(
+                    "transition-all duration-300",
+                    filter === "all" || project.technologies.includes(filter)
+                      ? "opacity-100 scale-100"
+                      : "opacity-50 scale-95"
+                  )}
+                />
+              ))}
+            </div>
+            
+            {filteredProjects.length === 0 && (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">Aucun projet ne correspond à ce filtre.</p>
+              </div>
+            )}
+          </TabsContent>
+          
+          {/* Contenu pour chaque catégorie */}
+          {Object.entries(categories).map(([key, title]) => (
+            <TabsContent key={key} value={key} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {projects
+                  .filter(project => project.category === key)
+                  .map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      title={project.title}
+                      description={project.description}
+                      image={project.image}
+                      technologies={project.technologies}
+                      link={project.link}
+                      githubUrl={project.githubUrl}
+                    />
+                  ))}
+              </div>
+            </TabsContent>
           ))}
-        </div>
-        
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-10">
-            <p className="text-muted-foreground">Aucun projet ne correspond à ce filtre.</p>
-          </div>
-        )}
+        </Tabs>
       </Section>
       
       <Section 
