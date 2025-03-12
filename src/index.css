@@ -207,4 +207,9 @@
     transform: translateY(-10px);
     transition: opacity 300ms, transform 300ms;
   }
+  
+  #lovable-editor-bubble {
+  display: none !important;
+}
+
 }
