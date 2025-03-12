@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    // Désactiver le componentTagger complètement
+    // Le componentTagger est ajouté mais désactivé comme demandé
     // mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
