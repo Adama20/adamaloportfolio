@@ -14,10 +14,35 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <!-- Script de redirection SPA pour GitHub Pages -->
     <script>
-      // Stocker l'URL actuelle pour la redirection
-      sessionStorage.redirect = location.href;
+      // Vérifier si nous sommes sur GitHub Pages
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      
+      if (isGitHubPages) {
+        // Stocker l'URL actuelle pour la redirection
+        sessionStorage.redirect = location.href;
+      }
+      
+      // Récupérer et traiter le paramètre de redirection
+      (function() {
+        // Récupérer les paramètres de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectPath = urlParams.get('p');
+        
+        // Si un paramètre de redirection existe, l'utiliser
+        if (redirectPath) {
+          const cleanPath = redirectPath.replace(/~and~/g, '&');
+          history.replaceState(null, null, cleanPath);
+        }
+        
+        // Si une redirection est stockée, l'utiliser
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
     </script>
-    <script src="/github-spa-redirect.js"></script>
     <style>
       /* Style pour masquer le badge Lovable */
       #lovable-badge, 
