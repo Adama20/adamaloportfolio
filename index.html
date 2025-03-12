@@ -17,18 +17,78 @@
       #lovable-badge, 
       div[id^="lovable-badge-"],
       div[class*="lovable-badge"],
-      div[data-testid="lovable-badge"] {
+      div[data-testid="lovable-badge"],
+      [aria-label*="Lovable"],
+      [aria-label*="lovable"],
+      [title*="Lovable"],
+      [title*="lovable"],
+      [class*="lovable-"],
+      [id*="lovable-"],
+      div[style*="z-index: 999999"],
+      body > div:last-of-type:not(#root) {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        left: -9999px !important;
+      }
+
+      /* Masquer également les éléments dynamiquement injectés */
+      body > div:not(#root) {
+        display: none !important;
+        visibility: hidden !important;
+      }
+
+      /* Masquer les iframes qui pourraient être injectés */
+      body > iframe {
+        display: none !important;
+        visibility: hidden !important;
       }
     </style>
   </head>
 
   <body>
     <div id="root"></div>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script>
+      // Fonction pour supprimer dynamiquement les éléments Lovable
+      function removeLovableBadge() {
+        const selectors = [
+          '#lovable-badge',
+          'div[id^="lovable-badge-"]',
+          'div[class*="lovable-badge"]',
+          'div[data-testid="lovable-badge"]',
+          '[aria-label*="Lovable"]',
+          '[aria-label*="lovable"]',
+          '[title*="Lovable"]',
+          '[title*="lovable"]',
+          '[class*="lovable-"]',
+          '[id*="lovable-"]',
+          'div[style*="z-index: 999999"]'
+        ];
+        
+        selectors.forEach(selector => {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(el => el.remove());
+        });
+        
+        // Supprimer scripts
+        const scripts = document.querySelectorAll('script[src*="lovable"], script[src*="gpteng"]');
+        scripts.forEach(script => script.remove());
+        
+        // Vérifier les divs enfants directs du body qui ne sont pas #root
+        const bodyDivs = document.querySelectorAll('body > div:not(#root)');
+        bodyDivs.forEach(div => div.remove());
+      }
+      
+      // Exécuter au chargement
+      window.addEventListener('load', removeLovableBadge);
+      // Exécuter périodiquement pour attraper les éléments ajoutés dynamiquement
+      setInterval(removeLovableBadge, 100);
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

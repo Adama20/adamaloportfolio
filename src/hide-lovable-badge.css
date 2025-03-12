@@ -5,15 +5,38 @@ div[id^="lovable-badge-"],
 div[class*="lovable-badge"],
 div[data-testid="lovable-badge"],
 [aria-label*="Lovable"],
-[aria-label*="lovable"] {
+[aria-label*="lovable"],
+[title*="Lovable"],
+[title*="lovable"],
+[class*="lovable-"],
+[id*="lovable-"],
+div[style*="z-index: 999999"],
+body > div:last-of-type:not(#root) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
 }
 
 /* Masquer également les éléments dynamiquement injectés */
 body > div:not(#root) {
   display: none !important;
   visibility: hidden !important;
+}
+
+/* Masquer les iframes qui pourraient être injectés */
+body > iframe {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Désactiver tout script provenant de Lovable */
+script[src*="lovable"],
+script[src*="gpteng"] {
+  display: none !important;
 }
