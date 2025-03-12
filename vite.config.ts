@@ -17,4 +17,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Séparer les chunks pour performance
+          vendor: ['react', 'react-dom'],
+          ui: ['@/components/ui']
+        }
+      }
+    }
+  }
 }));

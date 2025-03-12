@@ -12,6 +12,18 @@
     <meta property="og:image" content="/bi-dashboard.png" />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <style>
+      /* Style pour masquer le badge Lovable */
+      #lovable-badge, 
+      div[id^="lovable-badge-"],
+      div[class*="lovable-badge"],
+      div[data-testid="lovable-badge"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
   </head>
 
   <body>

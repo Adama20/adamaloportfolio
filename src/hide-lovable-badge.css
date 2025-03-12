@@ -1,0 +1,19 @@
+
+/* Style pour masquer le badge Lovable */
+#lovable-badge, 
+div[id^="lovable-badge-"],
+div[class*="lovable-badge"],
+div[data-testid="lovable-badge"],
+[aria-label*="Lovable"],
+[aria-label*="lovable"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Masquer également les éléments dynamiquement injectés */
+body > div:not(#root) {
+  display: none !important;
+  visibility: hidden !important;
+}
