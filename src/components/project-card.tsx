@@ -28,14 +28,22 @@ export default function ProjectCard({
   const [imageError, setImageError] = useState(false);
 
   const toggleDescription = (e: React.MouseEvent) => {
-    e.preventDefault(); // Empêcher la propagation de l'événement
-    e.stopPropagation(); // Empêcher le comportement par défaut
+    e.preventDefault(); // Prevent default behavior
+    e.stopPropagation(); // Stop propagation
     setExpanded(!expanded);
   };
 
   const handleImageError = () => {
     setImageError(true);
   };
+
+  // Get the current language from browser
+  const userLanguage = navigator.language || "fr";
+  const isEnglish = userLanguage.startsWith("en");
+
+  // Localized button text
+  const showMoreText = isEnglish ? "Show more" : "Voir plus";
+  const showLessText = isEnglish ? "Show less" : "Voir moins";
 
   return (
     <div
@@ -75,12 +83,12 @@ export default function ProjectCard({
               {expanded ? (
                 <>
                   <Minus size={16} />
-                  Voir moins
+                  {showLessText}
                 </>
               ) : (
                 <>
                   <Plus size={16} />
-                  Voir plus
+                  {showMoreText}
                 </>
               )}
             </Button>

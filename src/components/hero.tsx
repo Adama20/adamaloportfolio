@@ -1,4 +1,3 @@
-
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,6 +14,9 @@ export default function Hero({ className }: HeroProps) {
     }
   };
 
+  const jobTitle = "Consultant Data | Ingénieur BI";
+  const jobTitleAlt = "Consultant en données | Ingénieur BI";
+
   return (
     <section className={cn("relative min-h-screen flex items-center justify-center px-6", className)}>
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -24,9 +26,10 @@ export default function Hero({ className }: HeroProps) {
       
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <div className="mb-6 inline-block">
-          <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm animate-fade-in">
-            Consultant Data | Ingénieur BI
+          <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm animate-fade-in" translate="no">
+            {jobTitle}
           </span>
+          <span className="sr-only">{jobTitleAlt}</span>
         </div>
         
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slide-in-top">

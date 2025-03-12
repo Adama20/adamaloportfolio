@@ -33,7 +33,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem("theme", theme);
     
-    // Apply class to body
+    // Remove all theme classes first
     document.body.classList.remove(
       "theme-blue", 
       "theme-green", 
@@ -44,7 +44,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       "theme-rose", 
       "theme-amber"
     );
+    
+    // Then add the selected theme class
     document.body.classList.add(`theme-${theme}`);
+    
+    // Apply theme CSS variables for each theme
+    const root = document.documentElement;
+    
+    // Reset all theme-specific colors
+    switch(theme) {
+      case "teal":
+        root.style.setProperty('--primary', 'hsl(168, 76%, 42%)');
+        root.style.setProperty('--primary-foreground', 'hsl(168, 76%, 98%)');
+        break;
+      case "indigo":
+        root.style.setProperty('--primary', 'hsl(231, 48%, 48%)');
+        root.style.setProperty('--primary-foreground', 'hsl(231, 48%, 98%)');
+        break;
+      case "rose":
+        root.style.setProperty('--primary', 'hsl(339, 81%, 66%)');
+        root.style.setProperty('--primary-foreground', 'hsl(339, 81%, 98%)');
+        break;
+      default:
+        // For other themes, use the default configuration
+        root.style.removeProperty('--primary');
+        root.style.removeProperty('--primary-foreground');
+    }
   }, [theme]);
 
   useEffect(() => {
