@@ -1,0 +1,11 @@
+
+# Configuration Netlify
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Configuration pour le routage SPA - CRUCIAL pour les applications React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

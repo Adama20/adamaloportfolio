@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    outDir: "dist",
     rollupOptions: {
       output: {
         manualChunks: {
@@ -30,5 +31,8 @@ export default defineConfig(({ mode }) => ({
         }
       }
     }
-  }
+  },
+  // Ajout d'une configuration pour la gestion des routes SPA
+  // Ceci est crucial pour que les routes fonctionnent en production
+  base: "/"
 }));
