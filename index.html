@@ -42,7 +42,8 @@
       [data-lovable-id],
       [data-gptengineer-id],
       [class^="__GPTEngineer"],
-      [id^="__GPTEngineer"] {
+      [id^="__GPTEngineer"],
+      div[style*="position: fixed"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -52,6 +53,21 @@
         overflow: hidden !important;
         position: absolute !important;
         left: -9999px !important;
+        z-index: -9999 !important;
+        transform: scale(0) !important;
+      }
+
+      /* Réinitialisation pour les éléments légitimes */
+      header[style*="position: fixed"],
+      nav[style*="position: fixed"] {
+        display: block !important;
+        visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+        position: fixed !important;
+        left: auto !important;
+        z-index: auto !important;
+        transform: none !important;
       }
 
       /* Masquer également les éléments dynamiquement injectés */
@@ -114,6 +130,13 @@
           });
         });
         
+        // Supprimer tous les éléments avec position: fixed sauf header/nav
+        document.querySelectorAll('div[style*="position: fixed"]').forEach(el => {
+          if (!el.closest('header') && !el.closest('nav')) {
+            el.remove();
+          }
+        });
+        
         // Supprimer scripts
         const scripts = document.querySelectorAll('script[src*="lovable"], script[src*="gpteng"]');
         scripts.forEach(script => script.remove());
@@ -121,7 +144,7 @@
         // Vérifier les divs enfants directs du body qui ne sont pas #root
         const bodyDivs = document.querySelectorAll('body > div:not(#root)');
         bodyDivs.forEach(div => {
-          if (div && div !== document.getElementById('root')) {
+          if (div && div !== document.getElementById('root') && !div.id) {
             div.remove();
           }
         });
@@ -140,11 +163,31 @@
         setTimeout(removeLovableBadge, 2000);
       });
       // Exécuter périodiquement pour attraper les éléments ajoutés dynamiquement
-      setInterval(removeLovableBadge, 100);
+      setInterval(removeLovableBadge, 50);
       
       // Observer les mutations du DOM pour attraper les éléments ajoutés dynamiquement
-      const observer = new MutationObserver(removeLovableBadge);
-      observer.observe(document.body, { childList: true, subtree: true });
+      const observer = new MutationObserver(mutations => {
+        removeLovableBadge();
+        
+        // Vérifier spécifiquement les nouveaux éléments avec position: fixed
+        mutations.forEach(mutation => {
+          if (mutation.addedNodes) {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeType === 1) { // Element node
+                if (node.style && node.style.position === 'fixed') {
+                  if (!node.closest('header') && !node.closest('nav')) {
+                    node.remove();
+                  }
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      window.addEventListener('load', () => {
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+      });
       
       // Bloquer les scripts Lovable avant qu'ils ne s'exécutent
       const originalCreateElement = document.createElement;
@@ -163,7 +206,28 @@
             }
           });
         }
+        if (tagName.toLowerCase() === 'div') {
+          const originalSetAttribute = element.setAttribute;
+          element.setAttribute = function(name, value) {
+            if (name === 'style' && value && value.includes('position: fixed')) {
+              return;
+            }
+            return originalSetAttribute.call(this, name, value);
+          };
+        }
         return element;
+      };
+      
+      // Empêcher l'ajout de style position: fixed
+      const originalSetAttribute = Element.prototype.setAttribute;
+      Element.prototype.setAttribute = function(name, value) {
+        if (name === 'style' && value && 
+            value.includes('position: fixed') && 
+            !this.closest('header') && 
+            !this.closest('nav')) {
+          return;
+        }
+        return originalSetAttribute.call(this, name, value);
       };
     </script>
     <script type="module" src="/src/main.tsx"></script>

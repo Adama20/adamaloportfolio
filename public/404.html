@@ -22,13 +22,26 @@
     div[style*="position: fixed"][style*="left: 0"],
     div[style*="bottom:"][style*="right:"],
     div[style*="bottom:"][style*="left:"],
+    div[style*="position: fixed"][style*="z-index"],
     a[href*="lovable.ai"],
     a[href*="lovable.dev"],
     a[href*="gpteng"],
-    a[href*="gptengineer"] {
+    a[href*="gptengineer"],
+    div[style*="position: fixed"] {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      z-index: -9999 !important;
+    }
+
+    /* Réinitialisation pour les éléments légitimes */
+    header[style*="position: fixed"],
+    nav[style*="position: fixed"] {
+      display: block !important;
+      visibility: visible !important;
     }
   </style>
   <script type="text/javascript">
@@ -41,19 +54,60 @@
         '#lovable-badge',
         'div[id^="lovable-badge-"]',
         'div[class*="lovable-badge"]',
-        'div[data-testid="lovable-badge"]'
+        'div[data-testid="lovable-badge"]',
+        '[aria-label*="Lovable"]',
+        '[aria-label*="lovable"]',
+        '[title*="Lovable"]',
+        '[title*="lovable"]',
+        '[class*="lovable-"]',
+        '[id*="lovable-"]',
+        'div[style*="z-index: 999999"]',
+        'div[style*="position: fixed"][style*="bottom: 0"]',
+        'div[style*="position: fixed"][style*="right: 0"]',
+        'div[style*="position: fixed"][style*="left: 0"]',
+        'div[style*="bottom:"][style*="right:"]',
+        'div[style*="bottom:"][style*="left:"]',
+        'div[style*="position: fixed"][style*="z-index"]',
+        'a[href*="lovable.ai"]',
+        'a[href*="lovable.dev"]',
+        'a[href*="gpteng"]',
+        'a[href*="gptengineer"]'
       ];
       
       selectors.forEach(selector => {
         const elements = document.querySelectorAll(selector);
         elements.forEach(el => el.remove());
       });
+
+      // Supprimer tous les éléments avec position: fixed sauf header/nav
+      document.querySelectorAll('div[style*="position: fixed"]').forEach(el => {
+        if (!el.closest('header') && !el.closest('nav')) {
+          el.remove();
+        }
+      });
+
+      // Vérifier les divs enfants directs du body
+      document.querySelectorAll('body > div:not(#root)').forEach(div => {
+        if (div && div !== document.getElementById('root') && !div.id) {
+          div.remove();
+        }
+      });
+      
+      // Supprimer les iframes
+      document.querySelectorAll('iframe').forEach(iframe => iframe.remove());
     }
     
-    // Exécuter au chargement
+    // Exécuter au chargement et périodiquement
     window.addEventListener('load', removeLovableBadge);
-    // Exécuter périodiquement
-    setInterval(removeLovableBadge, 100);
+    setInterval(removeLovableBadge, 50);
+
+    // Observer les mutations du DOM
+    if (MutationObserver) {
+      const observer = new MutationObserver(removeLovableBadge);
+      window.addEventListener('load', () => {
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    }
   </script>
 </head>
 <body>

@@ -18,11 +18,24 @@ div[style*="bottom:"][style*="right:"],
 div[style*="bottom:"][style*="left:"],
 div[style*="bottom:"][style*="z-index:"],
 div[style*="right:"][style*="z-index:"],
-body > div:last-of-type:not(#root),
+body > div:last-of-type:not(#root):not([id]),
 a[href*="lovable.ai"],
 a[href*="lovable.dev"],
 a[href*="gpteng"],
-a[href*="gptengineer"] {
+a[href*="gptengineer"],
+body > iframe,
+iframe[src*="lovable"],
+iframe[src*="gpteng"],
+body > div:not(#root):not([id]),
+#lovable-editor-bubble,
+[data-lovable-id],
+[data-gptengineer-id],
+[class^="__GPTEngineer"],
+[id^="__GPTEngineer"],
+div[style*="bottom: 0"][style*="right: 0"],
+div[style*="bottom: 0px"][style*="right: 0px"],
+div[style*="position: fixed"][style*="z-index: 9999"],
+iframe[style*="position: fixed"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -33,6 +46,9 @@ a[href*="gptengineer"] {
   position: absolute !important;
   left: -9999px !important;
   z-index: -9999 !important;
+  transform: scale(0) !important;
+  max-height: 0 !important;
+  max-width: 0 !important;
 }
 
 /* Masquer également les éléments dynamiquement injectés */
@@ -71,4 +87,17 @@ div[style*="bottom: 0px"][style*="right: 0px"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
+}
+
+/* Règle plus agressive pour les éléments de position fixe en bas à droite */
+div[style*="position: fixed"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Réinitialisation spécifique pour les éléments légitimes avec position fixed */
+header[style*="position: fixed"],
+nav[style*="position: fixed"] {
+  display: block !important;
+  visibility: visible !important;
 }
