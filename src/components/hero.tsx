@@ -1,4 +1,3 @@
-
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -19,7 +18,7 @@ export default function Hero({ className }: HeroProps) {
   const jobTitleAlt = "Consultant en données | Ingénieur BI";
 
   return (
-    <section className={cn("relative min-h-[90vh] flex items-center justify-center px-6", className)}>
+    <section className={cn("relative min-h-screen flex items-center justify-center px-6", className)}>
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute w-[500px] h-[500px] rounded-full bg-primary/10 -top-20 -right-20 animate-float"></div>
         <div className="absolute w-[300px] h-[300px] rounded-full bg-primary/5 bottom-20 -left-20 animate-float"></div>
