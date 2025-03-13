@@ -4,7 +4,7 @@ export const projects = [
     id: 1,
     title: "Application web et mobile de prédiction de la météo (IA)",
     description: "Application météorologique utilisant l'intelligence artificielle pour prédire les conditions météorologiques sur les campus universitaires avec une haute précision. Ce projet combine des modèles de Machine Learning avec des interfaces web et mobile intuitives. Les algorithmes d'IA analysent des données historiques et en temps réel pour fournir des prévisions personnalisées pour chaque campus. L'interface utilisateur permet d'afficher des données détaillées comme la température, l'humidité, la vitesse du vent, ainsi que des alertes météorologiques.",
-    image: "/images/meteocampus.png", 
+    image: "/lovable-uploads/3c9fb4a1-90a5-4697-9052-ec0a2b86c4d1.png", 
     technologies: ["Python", "IA", "React", "React Native"],
     link: "/projects/meteo-campus",
     githubUrl: "https://github.com/Lucas-Matusiak/meteo-campus/tree/main",

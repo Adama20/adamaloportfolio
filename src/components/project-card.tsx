@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Github, ExternalLink, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,13 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState(image);
+
+  // Reset image error state when image prop changes
+  useEffect(() => {
+    setImageSrc(image);
+    setImageError(false);
+  }, [image]);
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default behavior
@@ -34,8 +41,9 @@ export default function ProjectCard({
   };
 
   const handleImageError = () => {
-    console.log(`Image failed to load: ${image}`);
+    console.log(`Image failed to load: ${imageSrc}`);
     setImageError(true);
+    setImageSrc("/placeholder.svg");
   };
 
   // Get the current language from browser
@@ -55,7 +63,7 @@ export default function ProjectCard({
     >
       <div className="h-48 overflow-hidden relative">
         <img
-          src={imageError ? "/placeholder.svg" : image}
+          src={imageSrc}
           alt={title}
           onError={handleImageError}
           className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
