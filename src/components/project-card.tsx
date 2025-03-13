@@ -34,6 +34,7 @@ export default function ProjectCard({
   };
 
   const handleImageError = () => {
+    console.log(`Image failed to load: ${image}`);
     setImageError(true);
   };
 
