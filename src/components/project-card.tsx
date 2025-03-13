@@ -26,12 +26,16 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState(image);
+  const [imageSrc, setImageSrc] = useState(image || "/placeholder.svg");
 
-  // Reset image error state when image prop changes
+  // Reset image error state and update image source when image prop changes
   useEffect(() => {
-    setImageSrc(image);
-    setImageError(false);
+    if (image) {
+      setImageSrc(image);
+      setImageError(false);
+    } else {
+      setImageSrc("/placeholder.svg");
+    }
   }, [image]);
 
   const toggleDescription = (e: React.MouseEvent) => {
@@ -41,9 +45,12 @@ export default function ProjectCard({
   };
 
   const handleImageError = () => {
-    console.log(`Image failed to load: ${imageSrc}`);
-    setImageError(true);
-    setImageSrc("/placeholder.svg");
+    console.error(`Image failed to load: ${imageSrc}`);
+    // Only set to placeholder if not already using placeholder
+    if (imageSrc !== "/placeholder.svg") {
+      setImageError(true);
+      setImageSrc("/placeholder.svg");
+    }
   };
 
   // Get the current language from browser
