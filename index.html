@@ -14,7 +14,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <!-- Style pour masquer le badge Lovable -->
     <style>
-      /* Style pour masquer le badge Lovable */
+      /* Style pour masquer complètement le badge Lovable et tous ses éléments */
       #lovable-badge, 
       div[id^="lovable-badge-"],
       div[class*="lovable-badge"],
@@ -26,7 +26,16 @@
       [class*="lovable-"],
       [id*="lovable-"],
       div[style*="z-index: 999999"],
-      body > div:last-of-type:not(#root) {
+      body > div:last-of-type:not(#root),
+      div[style*="position: fixed"][style*="bottom: 0"],
+      div[style*="position: fixed"][style*="right: 0"],
+      div[style*="position: fixed"][style*="left: 0"],
+      div[style*="bottom:"][style*="right:"],
+      div[style*="bottom:"][style*="left:"],
+      a[href*="lovable.ai"],
+      a[href*="lovable.dev"],
+      a[href*="gpteng"],
+      a[href*="gptengineer"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -68,12 +77,25 @@
           '[title*="lovable"]',
           '[class*="lovable-"]',
           '[id*="lovable-"]',
-          'div[style*="z-index: 999999"]'
+          'div[style*="z-index: 999999"]',
+          'div[style*="position: fixed"][style*="bottom: 0"]',
+          'div[style*="position: fixed"][style*="right: 0"]',
+          'div[style*="position: fixed"][style*="left: 0"]',
+          'div[style*="bottom:"][style*="right:"]',
+          'div[style*="bottom:"][style*="left:"]',
+          'a[href*="lovable.ai"]',
+          'a[href*="lovable.dev"]',
+          'a[href*="gpteng"]',
+          'a[href*="gptengineer"]'
         ];
         
         selectors.forEach(selector => {
           const elements = document.querySelectorAll(selector);
-          elements.forEach(el => el.remove());
+          elements.forEach(el => {
+            if (el && el !== document.getElementById('root')) {
+              el.remove();
+            }
+          });
         });
         
         // Supprimer scripts
@@ -82,15 +104,23 @@
         
         // Vérifier les divs enfants directs du body qui ne sont pas #root
         const bodyDivs = document.querySelectorAll('body > div:not(#root)');
-        bodyDivs.forEach(div => div.remove());
+        bodyDivs.forEach(div => {
+          if (div && div !== document.getElementById('root')) {
+            div.remove();
+          }
+        });
       }
       
       // Exécuter au chargement
       window.addEventListener('load', removeLovableBadge);
       // Exécuter périodiquement pour attraper les éléments ajoutés dynamiquement
       setInterval(removeLovableBadge, 100);
+      
+      // Observer les mutations du DOM pour attraper les éléments ajoutés dynamiquement
+      const observer = new MutationObserver(removeLovableBadge);
+      observer.observe(document.body, { childList: true, subtree: true });
     </script>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <!-- Removed reference to gptengineer.js script -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

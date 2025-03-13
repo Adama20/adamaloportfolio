@@ -1,5 +1,5 @@
 
-/* Style pour masquer le badge Lovable */
+/* Style pour masquer complètement le badge Lovable et tous ses éléments */
 #lovable-badge, 
 div[id^="lovable-badge-"],
 div[class*="lovable-badge"],
@@ -11,7 +11,16 @@ div[data-testid="lovable-badge"],
 [class*="lovable-"],
 [id*="lovable-"],
 div[style*="z-index: 999999"],
-body > div:last-of-type:not(#root) {
+body > div:last-of-type:not(#root),
+div[style*="position: fixed"][style*="bottom: 0"],
+div[style*="position: fixed"][style*="right: 0"],
+div[style*="position: fixed"][style*="left: 0"],
+div[style*="bottom:"][style*="right:"],
+div[style*="bottom:"][style*="left:"],
+a[href*="lovable.ai"],
+a[href*="lovable.dev"],
+a[href*="gpteng"],
+a[href*="gptengineer"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -38,5 +47,10 @@ body > iframe {
 /* Désactiver tout script provenant de Lovable */
 script[src*="lovable"],
 script[src*="gpteng"] {
+  display: none !important;
+}
+
+/* Ajouter une règle spécifique pour le badge du bas de page */
+div[style*="position: fixed"][style*="bottom"] {
   display: none !important;
 }

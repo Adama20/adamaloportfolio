@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -207,9 +206,29 @@
     transform: translateY(-10px);
     transition: opacity 300ms, transform 300ms;
   }
-  
-  #lovable-editor-bubble {
-  display: none !important;
-}
 
+  #lovable-badge, 
+  div[id^="lovable-badge-"],
+  div[class*="lovable-badge"],
+  div[data-testid="lovable-badge"],
+  [aria-label*="Lovable"],
+  [aria-label*="lovable"],
+  [title*="Lovable"],
+  [title*="lovable"],
+  [class*="lovable-"],
+  [id*="lovable-"],
+  #lovable-editor-bubble,
+  div[style*="position: fixed"][style*="bottom: 0"],
+  div[style*="position: fixed"][style*="right: 0"],
+  div[style*="position: fixed"][style*="left: 0"],
+  div[style*="bottom:"][style*="right:"],
+  a[href*="lovable.ai"],
+  a[href*="lovable.dev"],
+  a[href*="gpteng"],
+  a[href*="gptengineer"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
