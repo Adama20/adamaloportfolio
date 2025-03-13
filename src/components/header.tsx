@@ -36,7 +36,7 @@ export default function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 px-6 md:px-12",
-        isScrolled ? "glass-panel backdrop-blur-lg" : "bg-transparent"
+        isScrolled ? "bg-background/80 backdrop-blur-lg border-b border-border/50" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -87,11 +87,11 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "fixed inset-0 top-[68px] bg-background/80 backdrop-blur-md z-40 md:hidden transition-transform duration-300 ease-in-out",
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          "fixed inset-x-0 top-[72px] bg-background/95 backdrop-blur-md z-40 md:hidden transition-all duration-300 ease-in-out border-b border-border/50",
+          isMobileMenuOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none overflow-hidden"
         )}
       >
-        <nav className="p-6 h-full">
+        <nav className="p-6">
           <ul className="flex flex-col space-y-6 text-lg">
             {navItems.map((item) => (
               <li key={item.path}>

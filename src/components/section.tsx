@@ -53,12 +53,12 @@ export default function Section({
       id={id}
       ref={sectionRef}
       className={cn(
-        "py-16 px-6 md:px-12",
+        "py-16 px-6 md:px-12 w-full",
         isVisible && "animate-fade-in",
         className
       )}
     >
-      <div className={cn(!fullWidth && "max-w-7xl mx-auto")}>
+      <div className={cn("w-full", !fullWidth && "max-w-7xl mx-auto")}>
         {(title || subtitle) && (
           <div className="mb-12 text-center">
             {title && (
