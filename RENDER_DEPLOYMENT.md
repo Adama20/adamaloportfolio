@@ -12,8 +12,6 @@ To properly deploy this application to Render, please follow these steps:
    - `NODE_VERSION`: `18`
 5. Click "Create Static Site"
 
-If you encounter any issues with the deployment, please check the Render logs for more details.
-
 ## Important: Package.json Scripts
 
 Ensure your package.json contains these scripts:
@@ -37,3 +35,22 @@ import { Button } from "@/components/ui/button";
 // Incorrect - causes duplicate 'src' in path
 import { Button } from "src/components/ui/button";
 ```
+
+## Manual Deployment Steps
+
+If the automatic deployment is still failing, try these manual steps:
+
+1. Clone your repository locally
+2. Run `npm ci` to install dependencies
+3. Run `npm run build` to build the project
+4. Verify that the build succeeds locally
+5. Use the Render manual deploy option to upload your built files
+
+## Troubleshooting Import Paths
+
+To find any incorrect imports in your codebase:
+
+1. Search your entire project for imports that use `from "src/` or `from 'src/`
+2. Replace all instances with the correct alias `from "@/`
+3. Commit these changes and push to your repository
+4. Trigger a new deployment on Render
