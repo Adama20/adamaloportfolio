@@ -8,6 +8,7 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => {
   // Détection si nous sommes en environnement GitHub Pages
   const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+  // Utilisons le nom exact de votre dépôt GitHub
   const base = isGitHubPages ? '/adamaloportfolio/' : '/';
   
   return {
@@ -27,6 +28,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: "dist",
+      // Assurons-nous de copier le fichier 404.html
       rollupOptions: {
         output: {
           manualChunks: {

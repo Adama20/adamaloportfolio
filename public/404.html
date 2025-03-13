@@ -5,21 +5,8 @@
   <meta charset="utf-8">
   <title>Adama Lo Portfolio</title>
   <script type="text/javascript">
-    // Récupérer le segment de l'URL après la base
-    var pathSegmentsToKeep = 1; // Ajustez si nécessaire selon la structure d'URL
-    var l = window.location;
-    
-    // Construire l'URL de redirection avec le chemin d'origine préservé comme paramètre
-    var redirectUrl = l.protocol + '//' + l.hostname + 
-      (l.port ? ':' + l.port : '') + 
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + 
-      '/?p=/' + 
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash;
-    
-    // Rediriger vers la page d'index avec les paramètres
-    window.location.replace(redirectUrl);
+    // Simple redirect to the main page with hash routing
+    window.location.href = "/adamaloportfolio/#" + window.location.pathname;
   </script>
 </head>
 <body>

@@ -12,37 +12,7 @@
     <meta property="og:image" content="/lovable-uploads/15611d75-243f-4aec-83ae-b65d4746c6dd.png" />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <!-- Script de redirection SPA pour GitHub Pages -->
-    <script>
-      // Vérifier si nous sommes sur GitHub Pages
-      const isGitHubPages = window.location.hostname.includes('github.io');
-      
-      if (isGitHubPages) {
-        // Stocker l'URL actuelle pour la redirection
-        sessionStorage.redirect = location.href;
-      }
-      
-      // Récupérer et traiter le paramètre de redirection
-      (function() {
-        // Récupérer les paramètres de l'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirectPath = urlParams.get('p');
-        
-        // Si un paramètre de redirection existe, l'utiliser
-        if (redirectPath) {
-          const cleanPath = redirectPath.replace(/~and~/g, '&');
-          history.replaceState(null, null, cleanPath);
-        }
-        
-        // Si une redirection est stockée, l'utiliser
-        const redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-    </script>
+    <!-- Style pour masquer le badge Lovable -->
     <style>
       /* Style pour masquer le badge Lovable */
       #lovable-badge, 
