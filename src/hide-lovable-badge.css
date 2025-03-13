@@ -11,12 +11,14 @@ div[data-testid="lovable-badge"],
 [class*="lovable-"],
 [id*="lovable-"],
 div[style*="z-index: 999999"],
-body > div:last-of-type:not(#root),
 div[style*="position: fixed"][style*="bottom: 0"],
 div[style*="position: fixed"][style*="right: 0"],
 div[style*="position: fixed"][style*="left: 0"],
 div[style*="bottom:"][style*="right:"],
 div[style*="bottom:"][style*="left:"],
+div[style*="bottom:"][style*="z-index:"],
+div[style*="right:"][style*="z-index:"],
+body > div:last-of-type:not(#root),
 a[href*="lovable.ai"],
 a[href*="lovable.dev"],
 a[href*="gpteng"],
@@ -30,6 +32,7 @@ a[href*="gptengineer"] {
   overflow: hidden !important;
   position: absolute !important;
   left: -9999px !important;
+  z-index: -9999 !important;
 }
 
 /* Masquer également les éléments dynamiquement injectés */
@@ -39,7 +42,9 @@ body > div:not(#root) {
 }
 
 /* Masquer les iframes qui pourraient être injectés */
-body > iframe {
+body > iframe, 
+iframe[src*="lovable"],
+iframe[src*="gpteng"] {
   display: none !important;
   visibility: hidden !important;
 }
@@ -53,4 +58,17 @@ script[src*="gpteng"] {
 /* Ajouter une règle spécifique pour le badge du bas de page */
 div[style*="position: fixed"][style*="bottom"] {
   display: none !important;
+}
+
+/* Règles supplémentaires pour capturer d'autres variations */
+#lovable-editor-bubble,
+[data-lovable-id],
+[data-gptengineer-id],
+[class^="__GPTEngineer"],
+[id^="__GPTEngineer"],
+div[style*="bottom: 0"][style*="right: 0"],
+div[style*="bottom: 0px"][style*="right: 0px"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }

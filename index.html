@@ -32,10 +32,17 @@
       div[style*="position: fixed"][style*="left: 0"],
       div[style*="bottom:"][style*="right:"],
       div[style*="bottom:"][style*="left:"],
+      div[style*="bottom:"][style*="z-index:"],
+      div[style*="right:"][style*="z-index:"],
       a[href*="lovable.ai"],
       a[href*="lovable.dev"],
       a[href*="gpteng"],
-      a[href*="gptengineer"] {
+      a[href*="gptengineer"],
+      #lovable-editor-bubble,
+      [data-lovable-id],
+      [data-gptengineer-id],
+      [class^="__GPTEngineer"],
+      [id^="__GPTEngineer"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -83,10 +90,19 @@
           'div[style*="position: fixed"][style*="left: 0"]',
           'div[style*="bottom:"][style*="right:"]',
           'div[style*="bottom:"][style*="left:"]',
+          'div[style*="bottom:"][style*="z-index:"]',
+          'div[style*="right:"][style*="z-index:"]',
           'a[href*="lovable.ai"]',
           'a[href*="lovable.dev"]',
           'a[href*="gpteng"]',
-          'a[href*="gptengineer"]'
+          'a[href*="gptengineer"]',
+          '#lovable-editor-bubble',
+          '[data-lovable-id]',
+          '[data-gptengineer-id]',
+          '[class^="__GPTEngineer"]',
+          '[id^="__GPTEngineer"]',
+          'div[style*="bottom: 0"][style*="right: 0"]',
+          'div[style*="bottom: 0px"][style*="right: 0px"]'
         ];
         
         selectors.forEach(selector => {
@@ -109,18 +125,47 @@
             div.remove();
           }
         });
+        
+        // Supprimer les iframes
+        const iframes = document.querySelectorAll('body > iframe, iframe[src*="lovable"], iframe[src*="gpteng"]');
+        iframes.forEach(iframe => iframe.remove());
       }
       
       // Exécuter au chargement
       window.addEventListener('load', removeLovableBadge);
+      // Exécuter après une courte attente pour attraper les éléments ajoutés après le chargement initial
+      window.addEventListener('load', () => {
+        setTimeout(removeLovableBadge, 500);
+        setTimeout(removeLovableBadge, 1000);
+        setTimeout(removeLovableBadge, 2000);
+      });
       // Exécuter périodiquement pour attraper les éléments ajoutés dynamiquement
       setInterval(removeLovableBadge, 100);
       
       // Observer les mutations du DOM pour attraper les éléments ajoutés dynamiquement
       const observer = new MutationObserver(removeLovableBadge);
       observer.observe(document.body, { childList: true, subtree: true });
+      
+      // Bloquer les scripts Lovable avant qu'ils ne s'exécutent
+      const originalCreateElement = document.createElement;
+      document.createElement = function(tagName) {
+        const element = originalCreateElement.call(document, tagName);
+        if (tagName.toLowerCase() === 'script') {
+          Object.defineProperty(element, 'src', {
+            set: function(value) {
+              if (value && (value.includes('lovable') || value.includes('gpteng'))) {
+                return;
+              }
+              element.setAttribute('src', value);
+            },
+            get: function() {
+              return element.getAttribute('src');
+            }
+          });
+        }
+        return element;
+      };
     </script>
-    <!-- Removed reference to gptengineer.js script -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

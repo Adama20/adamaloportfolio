@@ -4,9 +4,56 @@
 <head>
   <meta charset="utf-8">
   <title>Adama Lo Portfolio</title>
+  <!-- Style pour masquer le badge Lovable -->
+  <style>
+    #lovable-badge, 
+    div[id^="lovable-badge-"],
+    div[class*="lovable-badge"],
+    div[data-testid="lovable-badge"],
+    [aria-label*="Lovable"],
+    [aria-label*="lovable"],
+    [title*="Lovable"],
+    [title*="lovable"],
+    [class*="lovable-"],
+    [id*="lovable-"],
+    div[style*="z-index: 999999"],
+    div[style*="position: fixed"][style*="bottom: 0"],
+    div[style*="position: fixed"][style*="right: 0"],
+    div[style*="position: fixed"][style*="left: 0"],
+    div[style*="bottom:"][style*="right:"],
+    div[style*="bottom:"][style*="left:"],
+    a[href*="lovable.ai"],
+    a[href*="lovable.dev"],
+    a[href*="gpteng"],
+    a[href*="gptengineer"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  </style>
   <script type="text/javascript">
     // Simple redirect to the main page with hash routing
     window.location.href = "/adamaloportfolio/#" + window.location.pathname;
+    
+    // Fonction pour supprimer les éléments Lovable
+    function removeLovableBadge() {
+      const selectors = [
+        '#lovable-badge',
+        'div[id^="lovable-badge-"]',
+        'div[class*="lovable-badge"]',
+        'div[data-testid="lovable-badge"]'
+      ];
+      
+      selectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => el.remove());
+      });
+    }
+    
+    // Exécuter au chargement
+    window.addEventListener('load', removeLovableBadge);
+    // Exécuter périodiquement
+    setInterval(removeLovableBadge, 100);
   </script>
 </head>
 <body>
