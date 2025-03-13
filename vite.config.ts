@@ -27,13 +27,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: "dist",
-      // Assurons-nous de configurer correctement pour GitHub Pages
+      // Configuration pour Rollup
       rollupOptions: {
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
-            // Évitez d'utiliser des chemins qui commencent par src/
-            ui: ['./src/components/ui']
+            // Suppression du chunk ui problématique
           }
         }
       }
