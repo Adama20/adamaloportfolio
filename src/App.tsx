@@ -13,6 +13,8 @@ import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import "./index.css";
+import "./App.css";
 
 // Import badge remover utility and run on every page
 import initBadgeRemover from './utils/badge-remover.js';
