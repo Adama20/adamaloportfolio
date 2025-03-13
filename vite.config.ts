@@ -6,11 +6,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Détection si nous sommes en environnement Render
-  const isRender = process.env.RENDER === 'true';
+  // Détection si nous sommes en environnement GitHub Pages
   const isGitHubPages = process.env.GITHUB_PAGES === 'true';
-  
-  // Base URL appropriée selon l'environnement
+  // Utilisons le nom exact de votre dépôt GitHub
   const base = isGitHubPages ? '/adamaloportfolio/' : '/';
   
   return {
@@ -29,16 +27,17 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: "dist",
-      // Configuration simplifiée pour éviter les problèmes de chunks
+      // Assurons-nous de configurer correctement pour GitHub Pages
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom']
+            vendor: ['react', 'react-dom', 'react-router-dom'],
+            ui: ['@/components/ui']
           }
         }
       }
     },
-    // Base URL
+    // Configuration pour GitHub Pages
     base: base,
   };
 });

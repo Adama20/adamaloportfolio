@@ -17,12 +17,10 @@ import NotFound from "./pages/NotFound";
 // Import badge remover utility and run on every page
 import initBadgeRemover from './utils/badge-remover.js';
 
-// Import de App.css pour assurer les styles de base
-import './App.css';
-import './index.css';
-
 const queryClient = new QueryClient();
 
+// Pour GitHub Pages, utilisons toujours HashRouter
+// HashRouter fonctionne mieux pour les sites statiques car il utilise la partie # de l'URL
 const App = () => {
   // Run badge remover on component mount
   useEffect(() => {
