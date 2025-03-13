@@ -32,7 +32,8 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
-            ui: ['@/components/ui']  // Utilisons l'alias @ correctement ici
+            // Évitez d'utiliser des chemins qui commencent par src/
+            ui: ['./src/components/ui']
           }
         }
       }
