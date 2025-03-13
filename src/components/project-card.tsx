@@ -1,10 +1,9 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Github, ExternalLink, Plus, Minus, ImageOff } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 interface ProjectCardProps {
   title: string;
@@ -27,20 +26,6 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState(image || "/placeholder.svg");
-  const [imageLoading, setImageLoading] = useState(true);
-
-  // Reset image error state and update image source when image prop changes
-  useEffect(() => {
-    if (image) {
-      setImageSrc(image);
-      setImageError(false);
-      setImageLoading(true);
-    } else {
-      setImageSrc("/placeholder.svg");
-      setImageLoading(false);
-    }
-  }, [image]);
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default behavior
@@ -49,18 +34,7 @@ export default function ProjectCard({
   };
 
   const handleImageError = () => {
-    console.error(`Image failed to load: ${imageSrc}`);
-    // Only set to placeholder if not already using placeholder
-    if (imageSrc !== "/placeholder.svg") {
-      setImageError(true);
-      setImageSrc("/placeholder.svg");
-      toast.error("Impossible de charger l'image du projet");
-    }
-    setImageLoading(false);
-  };
-
-  const handleImageLoad = () => {
-    setImageLoading(false);
+    setImageError(true);
   };
 
   // Get the current language from browser
@@ -79,20 +53,11 @@ export default function ProjectCard({
       )}
     >
       <div className="h-48 overflow-hidden relative">
-        {imageLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-secondary/20">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
         <img
-          src={imageSrc}
+          src={imageError ? "/placeholder.svg" : image}
           alt={title}
           onError={handleImageError}
-          onLoad={handleImageLoad}
-          className={cn(
-            "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110",
-            imageLoading ? "opacity-0" : "opacity-100"
-          )}
+          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
       </div>
