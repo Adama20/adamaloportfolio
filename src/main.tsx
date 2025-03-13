@@ -4,8 +4,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import './hide-lovable-badge.css'
+import initBadgeRemover from './utils/badge-remover.js'
 
-// Function to remove Lovable badge
+// Initialize badge remover immediately
+initBadgeRemover();
+
+// Run additional badge removal
 const removeLovableBadge = () => {
   const badgeSelectors = [
     '#lovable-badge',
@@ -32,13 +36,9 @@ const removeLovableBadge = () => {
   });
 };
 
-// Run badge removal immediately
+// Run badge removal immediately and periodically
 removeLovableBadge();
-
-// Run badge removal after DOM is loaded
 document.addEventListener('DOMContentLoaded', removeLovableBadge);
-
-// Run badge removal periodically
 setInterval(removeLovableBadge, 100);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
