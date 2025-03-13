@@ -1,4 +1,5 @@
 
+import React, { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,7 +15,6 @@ import NotFound from "./pages/NotFound";
 
 // Import badge remover utility and run on every page
 import initBadgeRemover from './utils/badge-remover.js';
-initBadgeRemover();
 
 const queryClient = new QueryClient();
 
@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 // HashRouter fonctionne mieux pour les sites statiques car il utilise la partie # de l'URL
 const App = () => {
   // Run badge remover on component mount
-  React.useEffect(() => {
+  useEffect(() => {
     const cleanup = initBadgeRemover();
     return cleanup;
   }, []);
